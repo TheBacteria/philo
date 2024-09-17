@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:08:35 by mzouine           #+#    #+#             */
-/*   Updated: 2024/09/17 17:53:18 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/09/17 20:03:49 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,22 @@ static int	mz_is_val(char *s)
 
 	i = 0;
 	n = 0;
+	while (s[i] == 32 || (s[i] >= 9 && s[i] <= 13))
+		i++;
+	if (s[i] == '\0')
+		return (-1);
 	while (s[i])
 	{
 		n = (n * 10) + s[i] - '0';
 		if (s[i] < '0' || s[i] > '9' || n > 2147483647)
 			return (-1);
 		i++;
+		while (s[i] == 32 || (s[i] >= 9 && s[i] <= 13))
+		{
+			i++;
+			if (s[i] != 32 && (s[i] < 9 || s[i] > 13) && s[i] != '\0')
+				return (-1);
+		}
 	}
 	return ((int)n);
 }
@@ -32,6 +42,9 @@ static int	mz_is_val(char *s)
 static int	mz_get_out()
 {
 	putstr_fd("Invalid arguments !\n", 2);
+	putstr_fd("Usage: ", 2);
+	putstr_fd("./philo number_of_philosophers time_to_die time_to_eat ", 2);
+	putstr_fd("time_to_sleep [number_of_times_each_philosopher_must_eat]\n", 2);
 	return (1);
 }
 
