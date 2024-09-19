@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:08:35 by mzouine           #+#    #+#             */
-/*   Updated: 2024/09/17 20:03:49 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/09/19 10:16:44 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ static int	mz_parse_input(int ac, char **av, t_info *data)
 	
 	if (data->n_philo == -1 || data->t_die == -1 || data->t_eat == -1
 		|| data->t_sleep == -1 || data->n_eat == -1)
+		return(-1);
+	if (data->n_philo == 0 || data->t_die == 0 || data->t_eat == 0
+		|| data->t_sleep == 0 || data->n_eat == 0)
 		return(-1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/17 11:58:20 by mzouine           #+#    #+#              #
-#    Updated: 2024/09/17 17:30:39 by mzouine          ###   ########.fr        #
+#    Updated: 2024/09/19 12:30:51 by mzouine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC_BONUS = main.c\
 
 OBJS = ${SRC:.c=.o}
 OBJS_BONUS = ${SRC_BONUS:.c=.o}
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -g -pthread -Wall -Wextra -Werror
 CC = cc
 HEADER_BONUS = philo_bonus.h
 HEADER = philo.h
