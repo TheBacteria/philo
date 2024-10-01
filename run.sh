@@ -1,1 +1,1 @@
-make && make clean && clear
+make && make clean # && clear

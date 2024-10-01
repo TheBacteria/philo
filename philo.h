@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:02:21 by mzouine           #+#    #+#             */
-/*   Updated: 2024/09/19 12:07:43 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/01 17:34:59 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,39 @@ typedef struct s_info
     int     n_eat;
     int     ac;
     char    **av;
+	size_t	timestmp;
+	t_philo	**philo;
+	t_fork	**fork;
 } t_info;
+
+
+typedef struct s_fork
+{
+	int				id;
+	pthread_mutex_t	fork;
+}					t_fork;
+
+typedef struct s_philo
+{
+	int		id;
+	int     t_die;
+    int     t_eat;
+    int     t_sleep;
+    int     n_eat;
+	size_t	timestmp;
+	// long long		last_meal;
+	int		meals_eaten;
+	// t_fork			*first_fork;
+	// t_fork			*second_fork;
+	pthread_mutex_t	lock;
+	pthread_t		thread;
+}					t_philo;
+
 
 int     mz_parser(int ac, char **av, t_info  *data);
 void	putstr_fd(char *msg, int fd);
+time_t	get_time(void);
+time_t	get_timestamp(t_info *program);
+int		mz_usleep(size_t ms);
 
 #endif
