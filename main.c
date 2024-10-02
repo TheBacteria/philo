@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:04:03 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/02 13:53:16 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:08:05 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,47 +20,18 @@ timestamp_in_ms X has taken a fork
 ◦ timestamp_in_ms X died
 */
 
-void *mz_routine(void *data)
-{
-	t_info	*philo;
-	struct timeval 	time;
-	time_t	t;
-	time_t	x;
-	x = get_time();
-	
-	philo = (t_info *)data;
-	while (1)
-	{
-		t = get_time();
-		printf("%ld X has taken a fork\n", get_time() - x);
-		if (get_time() - t > philo->t_die)
-			break ;
-		printf("%ld X is eating\n", get_time() - x);
-		mz_usleep(philo->t_eat);
-		if (get_time() - t > philo->t_die)
-			break ;
-		printf("%ld X is sleeping\n", get_time() - x);
-		mz_usleep(philo->t_sleep);
-		if (get_time() - t > philo->t_die)
-			break ;
-		printf("%ld X is thinking\n", get_time() - x);
-		if (get_time() - t > philo->t_die)
-			break ;
-	}
-	
-	printf("%ld X died\n", get_time() - x);
-	return (NULL);
-}
+
 
 void	mz_init_philos(t_info *data)
 {
 	int i;
 	
-	data->philo = malloc(sizeof(t_philo) * (data->n_philo + 2));
+	data->philo = malloc(sizeof(t_philo *) * (data->n_philo + 2));
 	i = 0;
 	while (i <= data->n_philo)
 	{
-		if (i == data->philo)
+		data->philo[i] = malloc(sizeof(t_philo));
+		if (i == data->n_philo)
 			data->philo[i]->id = -1;
 		else
 			data->philo[i]->id = i;
@@ -73,6 +44,7 @@ void	mz_init_philos(t_info *data)
 		data->philo[i]->meals_eaten = 0;
 		data->philo[i]->fork_1 = data->fork[i];
 		data->philo[i]->fork_2 = data->fork[(i + 1) % data->n_philo];
+		i++;
 	}
 	data->philo[i] = NULL;
 }
@@ -81,109 +53,18 @@ void	mz_init_forks(t_info *data)
 {
 	int i;
 
-	data->fork = malloc(sizeof(t_fork) * (data->n_philo + 1));
+	data->fork = malloc(sizeof(t_fork *) * (data->n_philo + 1));
 	i = 0;
 	while (i < data->n_philo)
 	{
+		data->fork[i] = malloc(sizeof(t_fork));
 		data->fork[i]->id = i;
 		pthread_mutex_init(&data->fork[i]->fork, NULL);
+		i++;
 	}
 	data->fork[i] = NULL;
 }
 
-void *mz_routine1(void *data)
-{
-	t_philo	*philo;
-	struct timeval 	time;
-	time_t	t;
-	time_t	x;
-	x = get_time();
-	
-	philo = (t_philo *)data;
-	while (1)
-	{
-		t = get_time();
-		printf("%ld X has taken a fork\n", get_time() - x);
-		if (get_time() - t > philo->t_die)
-			break ;
-		printf("%ld X is eating\n", get_time() - x);
-		mz_usleep(philo->t_eat);
-		if (get_time() - t > philo->t_die)
-			break ;
-		printf("%ld X is sleeping\n", get_time() - x);
-		mz_usleep(philo->t_sleep);
-		if (get_time() - t > philo->t_die)
-			break ;
-		printf("%ld X is thinking\n", get_time() - x);
-		if (get_time() - t > philo->t_die)
-			break ;
-	}
-	
-	printf("%ld X died\n", get_time() - x);
-	return (NULL);
-}
-void *mz_routine2(void *data)
-{
-	t_philo	*philo;
-	struct timeval 	time;
-	time_t	t;
-	time_t	x;
-	x = get_time();
-	
-	philo = (t_philo *)data;
-	while (1)
-	{
-		t = get_time();
-		printf("%ld X has taken a fork\n", get_time() - x);
-		if (get_time() - t > philo->t_die)
-			break ;
-		printf("%ld X is eating\n", get_time() - x);
-		mz_usleep(philo->t_eat);
-		if (get_time() - t > philo->t_die)
-			break ;
-		printf("%ld X is sleeping\n", get_time() - x);
-		mz_usleep(philo->t_sleep);
-		if (get_time() - t > philo->t_die)
-			break ;
-		printf("%ld X is thinking\n", get_time() - x);
-		if (get_time() - t > philo->t_die)
-			break ;
-	}
-	
-	printf("%ld X died\n", get_time() - x);
-	return (NULL);
-}
-void *mz_routineMon(void *data)
-{
-	t_philo	*philo;
-	struct timeval 	time;
-	time_t	t;
-	time_t	x;
-	x = get_time();
-	
-	philo = (t_philo *)data;
-	while (1)
-	{
-		t = get_time();
-		printf("%ld X has taken a fork\n", get_time() - x);
-		if (get_time() - t > philo->t_die)
-			break ;
-		printf("%ld X is eating\n", get_time() - x);
-		mz_usleep(philo->t_eat);
-		if (get_time() - t > philo->t_die)
-			break ;
-		printf("%ld X is sleeping\n", get_time() - x);
-		mz_usleep(philo->t_sleep);
-		if (get_time() - t > philo->t_die)
-			break ;
-		printf("%ld X is thinking\n", get_time() - x);
-		if (get_time() - t > philo->t_die)
-			break ;
-	}
-	
-	printf("%ld X died\n", get_time() - x);
-	return (NULL);
-}
 
 int	mz_start(t_info *data)
 {
@@ -193,34 +74,25 @@ int	mz_start(t_info *data)
 	i = 0;
 	while (i < data->n_philo)
 	{
-		if (data->philo[i]->id % 2 == 0)
+		if (data->philo[i]->id == -1)
 		{
-			if (pthread_create(data->philo[i]->thread, NULL, mz_routine1, data->philo[i]))
+			if (pthread_create(&data->philo[i]->thread, NULL, mz_routineMon, data->philo[i]))
 				return (1);
 		}
-		else if (data->philo[i]->id == -1)
+		else if (data->philo[i]->id % 2 == 0)
 		{
-			if (pthread_create(data->philo[i]->thread, NULL, mz_routineMon, data->philo[i]))
+			if (pthread_create(&data->philo[i]->thread, NULL, mz_routine1, data->philo[i]))
 				return (1);
 		}
 		else
 		{
-			if (pthread_create(data->philo[i]->thread, NULL, mz_routine2, data->philo[i]))
+			if (pthread_create(&data->philo[i]->thread, NULL, mz_routine2, data->philo[i]))
 				return (1);
 		}
 		i++;
 	}
 	return (0);
 }
-
-// philo_nbr = philo->dinner->num_of_philos;
-// 	philo->first_fork = &forks[(philo_position + 1) % philo_nbr];
-// 	philo->second_fork = &forks[philo_position];
-// 	if (philo->id % 2 == 0)
-// 	{
-// 		philo->first_fork = &forks[philo_position];
-// 		philo->second_fork = &forks[(philo_position + 1) % philo_nbr];
-// 	}
 
 int main(int ac, char **av)
 {
@@ -235,44 +107,7 @@ int main(int ac, char **av)
 	mz_start(&data);
 
 
-
-
-
-
-
-
-
-
-	// thread = malloc(data.n_philo * sizeof(pthread_t) + 1 + 1);
-	// thread[data.n_philo + 1] = NULL;
-	// data.philo = thread;
-	// i = 0;
-	// while (i <= data.n_philo)
-	// {
-	// 	if (pthread_create(&thread[i], NULL, mz_routine, &data))
-	// 		return (1);
-	// 	i++;
-	// }
-	// i = 0;
-	// while (i <= data.n_philo)
-	// {
-	// 	if (pthread_join(thread[i], NULL))
-	// 		return (1);
-	// 	i++;
-	// }
-	// free(thread);
     return (0);
 }
 
-
-
-	// gettimeofday(&time, NULL);
-	// printf("xx: %li\n", time.tv_sec * 1000 + time.tv_usec / 1000);
-    // printf("XXXXXXXXXXXXXXXXXX\n");
-    // printf("data->n_philo :%i\n", data.n_philo);
-    // printf("data->t_die   :%i\n", data.t_die);
-    // printf("data->t_eat   :%i\n", data.t_eat);
-    // printf("data->t_sleep :%i\n", data.t_sleep);
-    // printf("data->n_eat   :%i\n", data.n_eat);
-    // printf("XXXXXXXXXXXXXXXXXX\n");
 	

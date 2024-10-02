@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:02:21 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/02 12:30:38 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/02 18:52:25 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <pthread.h>
+
+typedef struct s_fork t_fork;
+typedef struct s_philo t_philo;
 
 struct s_timeval
 {
@@ -39,12 +42,12 @@ typedef struct s_info
 	t_fork	**fork;
 } t_info;
 
-
 typedef struct s_fork
 {
 	int				id;
 	pthread_mutex_t	fork;
 }					t_fork;
+
 
 typedef struct s_philo
 {
@@ -68,5 +71,8 @@ void	putstr_fd(char *msg, int fd);
 time_t	get_time(void);
 time_t	get_timestamp(t_info *program);
 int		mz_usleep(size_t ms);
+void	*mz_routine1(void *data);
+void	*mz_routine2(void *data);
+void	*mz_routineMon(void *data);
 
 #endif
