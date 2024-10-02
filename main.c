@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:04:03 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/02 19:08:05 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/02 20:12:22 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,11 @@ int main(int ac, char **av)
 	mz_init_forks(&data);
 	mz_init_philos(&data);
 	mz_start(&data);
+
+	while(1)
+	{
+		
+	}
 
 
     return (0);
