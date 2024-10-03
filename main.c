@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:04:03 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/02 20:12:22 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/03 15:46:10 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	mz_init_philos(t_info *data)
 		data->philo[i]->t_sleep = data->t_sleep;
 		data->philo[i]->n_eat = data->n_eat;
 		data->philo[i]->timestmp = data->timestmp;
+		data->philo[i]->is_dead = 0;
 		data->philo[i]->meals_eaten = 0;
 		data->philo[i]->fork_1 = data->fork[i];
 		data->philo[i]->fork_2 = data->fork[(i + 1) % data->n_philo];
@@ -72,21 +73,16 @@ int	mz_start(t_info *data)
 
 
 	i = 0;
-	while (i < data->n_philo)
+	while (i <= data->n_philo)
 	{
 		if (data->philo[i]->id == -1)
 		{
-			if (pthread_create(&data->philo[i]->thread, NULL, mz_routineMon, data->philo[i]))
-				return (1);
-		}
-		else if (data->philo[i]->id % 2 == 0)
-		{
-			if (pthread_create(&data->philo[i]->thread, NULL, mz_routine1, data->philo[i]))
+			if (pthread_create(&data->philo[i]->thread, NULL, mz_routineMon, data))
 				return (1);
 		}
 		else
 		{
-			if (pthread_create(&data->philo[i]->thread, NULL, mz_routine2, data->philo[i]))
+			if (pthread_create(&data->philo[i]->thread, NULL, mz_routine1, data->philo[i]))
 				return (1);
 		}
 		i++;
@@ -106,9 +102,11 @@ int main(int ac, char **av)
 	mz_init_philos(&data);
 	mz_start(&data);
 
-	while(1)
+	i = 0;
+	while (i <= data.n_philo)
 	{
-		
+		pthread_join(data.philo[i]->thread, NULL);
+		i++;
 	}
 
 

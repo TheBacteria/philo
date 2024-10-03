@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:02:21 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/02 18:52:25 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:27:48 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,15 @@ typedef struct s_fork
 
 typedef struct s_philo
 {
-	int		id;
-	int     t_die;
-    int     t_eat;
-    int     t_sleep;
-    int     n_eat;
-	size_t	timestmp;
-	// long long		last_meal;
-	int		meals_eaten;
+	int				id;
+	int				is_dead;
+	int     		t_die;
+    int     		t_eat;
+    int     		t_sleep;
+    int     		n_eat;
+	size_t			timestmp;
+	long long		last_meal;
+	int				meals_eaten;
 	t_fork			*fork_1;
 	t_fork			*fork_2;
 	pthread_mutex_t	lock;
@@ -72,7 +73,6 @@ time_t	get_time(void);
 time_t	get_timestamp(t_info *program);
 int		mz_usleep(size_t ms);
 void	*mz_routine1(void *data);
-void	*mz_routine2(void *data);
 void	*mz_routineMon(void *data);
 
 #endif

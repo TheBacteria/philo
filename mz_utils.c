@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:17:18 by mzouine           #+#    #+#             */
-/*   Updated: 2024/09/22 13:12:39 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/03 14:22:43 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@ time_t	get_time(void)
 	if (gettimeofday(&time, NULL) != 0)
 		return (0);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
-}
-
-time_t	get_timestamp(t_info *program)
-{
-	return (get_time() - program->timestmp);
 }
 
 int	mz_usleep(size_t ms)
