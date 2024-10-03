@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:04:03 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/03 15:46:10 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/03 16:54:30 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	mz_init_philos(t_info *data)
 		data->philo[i]->meals_eaten = 0;
 		data->philo[i]->fork_1 = data->fork[i];
 		data->philo[i]->fork_2 = data->fork[(i + 1) % data->n_philo];
+		data->philo[i]->printer = data->printer;
 		i++;
 	}
 	data->philo[i] = NULL;
@@ -109,7 +110,7 @@ int main(int ac, char **av)
 		i++;
 	}
 
-
+	// MAKE MUTEX TO READING IF DEAD !
     return (0);
 }
 

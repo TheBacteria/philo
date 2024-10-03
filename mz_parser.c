@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:08:35 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/03 14:22:52 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/03 16:36:50 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static int	mz_parse_input(int ac, char **av, t_info *data)
 	if (data->n_philo == 0 || data->t_die == 0 || data->t_eat == 0
 		|| data->t_sleep == 0 || data->n_eat == 0)
 		return(-1);
+	pthread_mutex_init(&data->printer, NULL);
 	return (0);
 }
 

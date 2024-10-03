@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:02:21 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/03 14:27:48 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/03 16:54:15 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_info
 	size_t	timestmp;
 	t_philo	**philo;
 	t_fork	**fork;
+	pthread_mutex_t	printer;
 } t_info;
 
 typedef struct s_fork
@@ -57,13 +58,13 @@ typedef struct s_philo
     int     		t_eat;
     int     		t_sleep;
     int     		n_eat;
-	size_t			timestmp;
+	long long		timestmp;
 	long long		last_meal;
 	int				meals_eaten;
 	t_fork			*fork_1;
 	t_fork			*fork_2;
-	pthread_mutex_t	lock;
 	pthread_t		thread;
+	pthread_mutex_t	printer;
 }					t_philo;
 
 

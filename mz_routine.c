@@ -6,26 +6,45 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:46:10 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/03 15:48:25 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/03 17:29:49 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	mz_printer(t_philo *philo, int n)
+{
+	pthread_mutex_lock(&philo->printer);
+	if (n == 0)
+	{
+		printf("%lld %d died\n", get_time() - philo->timestmp, philo->id);
+		return ;
+	}
+	else if (n == 1)
+		printf("%lld %d has taken a fork\n", get_time() - philo->timestmp, philo->id);
+	else if (n == 2)
+		printf("%lld %d is sleeping\n", get_time() - philo->timestmp, philo->id);
+	else if (n == 3)
+		printf("%lld %d is eating\n", get_time() - philo->timestmp, philo->id);
+	else
+		printf("Doesn't know what to print!\n");
+	pthread_mutex_unlock(&philo->printer);
+}
 
 int	mz_take_fork(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->fork_1->fork);
 	if (philo->is_dead == 1)
 			return (1);
-	printf("%ld %d has taken a fork\n", get_time() - philo->timestmp, philo->id);
+	mz_printer(philo, 1);
 	pthread_mutex_lock(&philo->fork_2->fork);
 	if (philo->is_dead == 1)
 			return (1);
-	printf("%ld %d has taken a fork\n", get_time() - philo->timestmp, philo->id);
-	if (get_time() - philo->last_meal > philo->t_die)
+	mz_printer(philo, 1);
+	if (get_time() - philo->last_meal >= philo->t_die)
 	{
+		mz_printer(philo, 0);
 		philo->is_dead = 1;
-		printf("%ld %d died\n", get_time() - philo->timestmp, philo->id);
 		return (1);
 	}
 	return (0);
@@ -35,17 +54,17 @@ int	mz_sleep(t_philo *philo)
 {
 	if (philo->is_dead == 1)
 			return (1);
-	printf("%ld %d is sleeping\n", get_time() - philo->timestmp, philo->id);
+	mz_printer(philo, 2);
 	mz_usleep(philo->t_sleep);
-	if (get_time() - philo->last_meal > philo->t_die)
+	if (get_time() - philo->last_meal >= philo->t_die)
 	{
+		mz_printer(philo, 0);
 		philo->is_dead = 1;
-		printf("%ld %d died\n", get_time() - philo->timestmp, philo->id);
 		return (1);
 	}
 	if (philo->is_dead == 1)
 			return (1);
-	printf("%ld %d is thinking\n", get_time() - philo->timestmp, philo->id);
+	mz_printer(philo, 1);
 	return (0);
 }
 
@@ -53,11 +72,11 @@ int	mz_eat(t_philo *philo)
 {
 	if (philo->is_dead == 1)
 			return (1);
-	printf("%ld %d is eating\n", get_time() - philo->timestmp, philo->id);
+	philo->last_meal = get_time();
+	mz_printer(philo, 3);
 	mz_usleep(philo->t_eat);
 	pthread_mutex_unlock(&philo->fork_1->fork);
 	pthread_mutex_unlock(&philo->fork_2->fork);
-	philo->last_meal = get_time();
 	return (0);
 }
 
@@ -69,8 +88,7 @@ void *mz_routine1(void *data)
 	philo->last_meal = get_time();
 	if (philo->id % 2 == 0)
 	{
-		if(mz_sleep(philo))
-			return (NULL);
+		mz_usleep(50);
 	}
 	while (1)
 	{
@@ -109,7 +127,6 @@ void *mz_routineMon(void *data)
 		{
 			if(mon->philo[i]->is_dead == 1)
 			{
-				printf("FUUUUUUUUUUUCK\n");
 				mz_funeral(mon);
 				return (NULL);
 			}
