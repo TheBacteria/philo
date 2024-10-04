@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:17:18 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/03 14:22:43 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/04 20:48:15 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	mz_usleep(size_t ms)
 		return (-1);
 	while ((get_time() - start) < ms)
 	{
-		usleep(500);
+		usleep(50);
 	}
 	return (0);
 }

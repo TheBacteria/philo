@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:08:35 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/03 16:36:50 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/04 20:21:55 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static int	mz_parse_input(int ac, char **av, t_info *data)
 	data->t_eat = mz_is_val(av[3]);
 	data->t_sleep = mz_is_val(av[4]);
 	data->timestmp = get_time();
+	data->is_dead = 0;
 	if (ac == 6)
 		data->n_eat = mz_is_val(av[5]);
 	else
@@ -69,6 +70,7 @@ static int	mz_parse_input(int ac, char **av, t_info *data)
 		|| data->t_sleep == 0 || data->n_eat == 0)
 		return(-1);
 	pthread_mutex_init(&data->printer, NULL);
+	pthread_mutex_init(&data->death, NULL);
 	return (0);
 }
 

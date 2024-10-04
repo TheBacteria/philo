@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:02:21 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/03 16:54:15 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/04 20:22:16 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ typedef struct s_info
     int     t_eat;
     int     t_sleep;
     int     n_eat;
+	int		is_dead;
     int     ac;
     char    **av;
 	size_t	timestmp;
 	t_philo	**philo;
 	t_fork	**fork;
 	pthread_mutex_t	printer;
+	pthread_mutex_t	death;
 } t_info;
 
 typedef struct s_fork
@@ -53,7 +55,7 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int				id;
-	int				is_dead;
+	int				*is_dead;
 	int     		t_die;
     int     		t_eat;
     int     		t_sleep;
@@ -65,6 +67,7 @@ typedef struct s_philo
 	t_fork			*fork_2;
 	pthread_t		thread;
 	pthread_mutex_t	printer;
+	pthread_mutex_t	death;
 }					t_philo;
 
 
