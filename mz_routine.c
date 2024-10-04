@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:46:10 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/03 17:29:49 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/04 20:01:49 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	mz_printer(t_philo *philo, int n)
 	if (n == 0)
 	{
 		printf("%lld %d died\n", get_time() - philo->timestmp, philo->id);
+		pthread_mutex_unlock(&philo->printer);
 		return ;
 	}
 	else if (n == 1)
