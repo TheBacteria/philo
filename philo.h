@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:02:21 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/05 11:53:51 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/05 14:15:12 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ typedef struct s_philo
 	t_fork			*fork_1;
 	t_fork			*fork_2;
 	pthread_t		thread;
-	pthread_mutex_t	printer;
-	pthread_mutex_t	death;
+	pthread_mutex_t	*printer;
+	pthread_mutex_t	*death;
 }					t_philo;
 
 

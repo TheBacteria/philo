@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:04:03 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/05 11:43:27 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/05 14:09:24 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ void	mz_init_philos(t_info *data)
 	while (i <= data->n_philo)
 	{
 		data->philo[i] = malloc(sizeof(t_philo));
+		data->philo[i]->id = i;
 		if (i == data->n_philo)
 			data->philo[i]->id = -1;
-		else
-			data->philo[i]->id = i;
-		data->philo[i]->thread = malloc(sizeof(pthread_t));
+		// data->philo[i]->thread = malloc(sizeof(pthread_t));
 		data->philo[i]->t_die = data->t_die;
 		data->philo[i]->t_eat = data->t_eat;
 		data->philo[i]->t_sleep = data->t_sleep;
@@ -45,8 +44,8 @@ void	mz_init_philos(t_info *data)
 		data->philo[i]->meals_eaten = 0;
 		data->philo[i]->fork_1 = data->fork[i];
 		data->philo[i]->fork_2 = data->fork[(i + 1) % data->n_philo];
-		data->philo[i]->printer = data->printer;
-		data->philo[i]->death = data->death;
+		data->philo[i]->printer = &data->printer;
+		data->philo[i]->death = &data->death;
 		i++;
 	}
 	data->philo[i] = NULL;
@@ -107,7 +106,6 @@ int main(int ac, char **av)
 	i = 0;
 	while (i <= data.n_philo)
 	{
-		printf("XXXXXXXXXXXX\n");
 		pthread_join(data.philo[i]->thread, NULL);
 		i++;
 	}
