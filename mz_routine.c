@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:46:10 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/04 20:47:47 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/05 11:54:23 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ void	mz_printer(t_philo *philo, int n)
 	pthread_mutex_unlock(&philo->printer);
 }
 
+int	mz_check_death2(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->death);
+	if (*(philo->is_dead) == 1)
+			return (1);
+	pthread_mutex_unlock(&philo->death);
+	return (0);
+}
 int	mz_check_death(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->death);
@@ -50,26 +58,33 @@ int	mz_check_death(t_philo *philo)
 
 int	mz_take_fork(t_philo *philo)
 {
-	if (mz_check_death(philo))
+	if (mz_check_death2(philo))
 		return (1);
 	pthread_mutex_lock(&philo->fork_1->fork);
-	if (mz_check_death(philo))
+	if (mz_check_death2(philo))
+	{
+		pthread_mutex_unlock(&philo->fork_1->fork);
 		return (1);
+	}
 	mz_printer(philo, 1);
 	pthread_mutex_lock(&philo->fork_2->fork);
-	if (mz_check_death(philo))
+	if (mz_check_death2(philo))
+	{
+		pthread_mutex_unlock(&philo->fork_1->fork);
+		pthread_mutex_unlock(&philo->fork_2->fork);
 		return (1);
+	}
 	mz_printer(philo, 1);
 	return (0);
 }
 
 int	mz_sleep(t_philo *philo)
 {
-	if (mz_check_death(philo))
+	if (mz_check_death2(philo))
 		return (1);
 	mz_printer(philo, 2);
-	mz_usleep(philo->t_sleep);
-	if (mz_check_death(philo))
+	mz_usleep(philo, philo->t_sleep);
+	if (mz_check_death2(philo))
 		return (1);
 	mz_printer(philo, 1);
 	return (0);
@@ -77,11 +92,11 @@ int	mz_sleep(t_philo *philo)
 
 int	mz_eat(t_philo *philo)
 {
-	if (mz_check_death(philo))
+	if (mz_check_death2(philo))
 		return (1);
 	philo->last_meal = get_time();
 	mz_printer(philo, 3);
-	mz_usleep(philo->t_eat);
+	mz_usleep(philo, philo->t_eat);
 	pthread_mutex_unlock(&philo->fork_1->fork);
 	pthread_mutex_unlock(&philo->fork_2->fork);
 	return (0);
@@ -95,10 +110,12 @@ void *mz_routine1(void *data)
 	philo->last_meal = get_time();
 	if (philo->id % 2 == 0)
 	{
-		mz_usleep(50);
+		mz_usleep(philo, 50);
 	}
 	while (1)
 	{
+		if (mz_check_death2(philo))
+			break ;
 		if(mz_take_fork(philo))
 			break ;
 		if (mz_eat(philo))
@@ -109,17 +126,17 @@ void *mz_routine1(void *data)
 	return (NULL);
 }
 
-// void	mz_funeral(t_info *data)
-// {
-// 	int i;
+void	mz_funeral(t_info *data)
+{
+	int i;
 
-// 	i = 0;
-// 	while (i < data->n_philo)
-// 	{
-// 		*(data->philo[i]->is_dead) = 1;
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (i < data->n_philo)
+	{
+		*(data->philo[i]->is_dead) = 1;
+		i++;
+	}
+}
 
 void *mz_routineMon(void *data)
 {
@@ -127,19 +144,19 @@ void *mz_routineMon(void *data)
 	t_info *mon;
 	
 	mon = (t_info *)data;
-	// while (1)
-	// {
-	// 	i = 0;
-	// 	while (i < mon->n_philo)
-	// 	{
-	// 		// if(*(mon->philo[i]->is_dead) == 1)
-	// 		// {
-	// 		// 	mz_funeral(mon);
-	// 		// 	return (NULL);
-	// 		// }
-	// 		i++;
-	// 	}
-	// }
+	while (1)
+	{
+		i = 0;
+		while (i < mon->n_philo)
+		{
+			if(mz_check_death(mon->philo[i]))
+			{
+				mz_funeral(mon);
+				return (NULL);
+			}
+			i++;
+		}
+	}
 	
 	return (NULL);
 }

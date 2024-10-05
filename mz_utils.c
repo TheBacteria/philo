@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:17:18 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/04 20:48:15 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/05 11:50:30 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ time_t	get_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-int	mz_usleep(size_t ms)
+int	mz_usleep(t_philo *philo, size_t ms)
 {
 	size_t	start;
 
@@ -41,6 +41,8 @@ int	mz_usleep(size_t ms)
 		return (-1);
 	while ((get_time() - start) < ms)
 	{
+		if (mz_check_death2(philo))
+			break ;
 		usleep(50);
 	}
 	return (0);

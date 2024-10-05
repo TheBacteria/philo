@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:02:21 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/04 20:22:16 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/05 11:53:51 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,9 @@ int     mz_parser(int ac, char **av, t_info  *data);
 void	putstr_fd(char *msg, int fd);
 time_t	get_time(void);
 time_t	get_timestamp(t_info *program);
-int		mz_usleep(size_t ms);
+int		mz_usleep(t_philo *philo, size_t ms);
 void	*mz_routine1(void *data);
 void	*mz_routineMon(void *data);
+int		mz_check_death2(t_philo *philo);
 
 #endif

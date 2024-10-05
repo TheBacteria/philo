@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:04:03 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/04 20:22:05 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/05 11:43:27 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int main(int ac, char **av)
 	i = 0;
 	while (i <= data.n_philo)
 	{
+		printf("XXXXXXXXXXXX\n");
 		pthread_join(data.philo[i]->thread, NULL);
 		i++;
 	}
