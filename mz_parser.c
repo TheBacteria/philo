@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:08:35 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/04 20:21:55 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/06 22:01:37 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ static int	mz_get_out()
 
 static int	mz_parse_input(int ac, char **av, t_info *data)
 {
-	data->ac = ac;
-	data->av = av;
 	data->n_philo = mz_is_val(av[1]);
 	data->t_die = mz_is_val(av[2]);
 	data->t_eat = mz_is_val(av[3]);

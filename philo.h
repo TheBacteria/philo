@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:02:21 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/05 14:15:12 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/06 22:56:57 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,15 @@ struct s_timeval
 
 typedef struct s_info
 {
-    int     n_philo;
-    int     t_die;
-    int     t_eat;
-    int     t_sleep;
-    int     n_eat;
-	int		is_dead;
-    int     ac;
-    char    **av;
-	size_t	timestmp;
-	t_philo	**philo;
-	t_fork	**fork;
+    int     	n_philo;
+    int     	t_die;
+    int     	t_eat;
+    int     	t_sleep;
+    int     	n_eat;
+	int			is_dead;
+	long long	timestmp;
+	t_philo		**philo;
+	t_fork		**fork;
 	pthread_mutex_t	printer;
 	pthread_mutex_t	death;
 } t_info;
@@ -55,19 +53,12 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int				id;
-	int				*is_dead;
-	int     		t_die;
-    int     		t_eat;
-    int     		t_sleep;
-    int     		n_eat;
-	long long		timestmp;
 	long long		last_meal;
 	int				meals_eaten;
 	t_fork			*fork_1;
 	t_fork			*fork_2;
 	pthread_t		thread;
-	pthread_mutex_t	*printer;
-	pthread_mutex_t	*death;
+	t_info			*data;
 }					t_philo;
 
 
