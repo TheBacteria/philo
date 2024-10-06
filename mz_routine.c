@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:46:10 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/06 23:35:24 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/06 23:41:34 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ int	mz_take_fork(t_philo *philo)
 	if (mz_check_death2(philo))
 		return (1);
 	pthread_mutex_lock(&philo->fork_1->fork);
-	mz_printer(philo, 1);
 	if (mz_check_death2(philo))
 	{
 		pthread_mutex_unlock(&philo->fork_1->fork);
 		return (1);
 	}
+	mz_printer(philo, 1);
 	if (philo->data->n_philo == 1)
 	{
 		mz_usleep(philo, philo->data->t_eat);
@@ -71,13 +71,13 @@ int	mz_take_fork(t_philo *philo)
 		return (1);
 	}
 	pthread_mutex_lock(&philo->fork_2->fork);
-	mz_printer(philo, 1);
 	if (mz_check_death2(philo))
 	{
 		pthread_mutex_unlock(&philo->fork_1->fork);
 		pthread_mutex_unlock(&philo->fork_2->fork);
 		return (1);
 	}
+	mz_printer(philo, 1);
 	return (0);
 }
 
@@ -145,7 +145,7 @@ int	mz_check_death(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->death);
 		return (1);
 	}
-	else if (philo->data->n_eat > -2 && philo->meals_eaten >= philo->data->n_eat)
+	else if (philo->data->n_eat > -2 && philo->meals_eaten > philo->data->n_eat)
 	{
 		philo->data->is_dead = 1;
 		pthread_mutex_unlock(&philo->data->death);
