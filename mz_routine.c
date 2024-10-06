@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:46:10 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/06 23:41:34 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/07 00:01:40 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	mz_check_death(t_philo *philo)
 	pthread_mutex_lock(&philo->data->death);
 	if (philo->data->is_dead == 1)
 		return (1);
-	if (get_time() - philo->last_meal >= philo->data->t_die)
+	if (get_time() - philo->last_meal > philo->data->t_die)
 	{
 		philo->data->is_dead = 1;
 		mz_printer(philo, 0);
