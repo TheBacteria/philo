@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:46:10 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/06 23:25:28 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/06 23:35:24 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ int	mz_take_fork(t_philo *philo)
 	mz_printer(philo, 1);
 	if (mz_check_death2(philo))
 	{
+		pthread_mutex_unlock(&philo->fork_1->fork);
+		return (1);
+	}
+	if (philo->data->n_philo == 1)
+	{
+		mz_usleep(philo, philo->data->t_eat);
 		pthread_mutex_unlock(&philo->fork_1->fork);
 		return (1);
 	}
