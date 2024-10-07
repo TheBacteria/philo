@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:46:10 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/07 17:05:54 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/07 17:16:22 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	mz_take_fork(t_philo *philo)
 
 int	mz_eat(t_philo *philo)
 {
-	philo->last_meal = get_time();
 	if (mz_printer(philo, 3))
 	{
 		pthread_mutex_unlock(&philo->fork_1->fork);
@@ -89,6 +88,7 @@ int	mz_eat(t_philo *philo)
 	}
 	philo->meals_eaten++;
 	mz_usleep(philo, philo->data->t_eat);
+	philo->last_meal = get_time();
 	pthread_mutex_unlock(&philo->fork_1->fork);
 	pthread_mutex_unlock(&philo->fork_2->fork);
 	return (0);
@@ -111,21 +111,13 @@ void *mz_routine1(void *data)
 	philo = (t_philo *)data;
 	philo->last_meal = philo->data->timestmp;
 	if (philo->id % 2 == 0)
-	{
-		// usleep(1000);
 		mz_usleep(philo, 50);
-	}
 	while (1)
 	{
 		if(mz_take_fork(philo))
 			break ;
 		if (mz_eat(philo))
 			break ;
-		// if (philo->data->n_eat > -2 && philo->meals_eaten >= philo->data->n_eat)
-		// {
-		// 	philo->meals_eaten = -1;
-		// 	break ;
-		// }
 		if(mz_sleep(philo))
 			break ;
 	}
@@ -135,11 +127,6 @@ void *mz_routine1(void *data)
 int	mz_check_death(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->death);
-	// if (philo->data->is_dead == 1 || philo->meals_eaten == -1)
-	// {
-	// 	pthread_mutex_unlock(&philo->data->death);
-	// 	return (1);
-	// }
 	if (get_time() - philo->last_meal > philo->data->t_die)
 	{
 		philo->data->is_dead = 1;
@@ -147,13 +134,6 @@ int	mz_check_death(t_philo *philo)
 		mz_printer(philo, 0);
 		return (1);
 	}
-	// else if (philo->data->n_eat > -2 && philo->meals_eaten > philo->data->n_eat)
-	// {
-	// 	// philo->data->is_dead = 1;
-	// 	pthread_mutex_unlock(&philo->data->death);
-	// 	return (1);
-	// }
-	// else
 	pthread_mutex_unlock(&philo->data->death);
 	return (0);
 }
