@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:46:10 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/07 00:16:31 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/07 01:07:11 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ void	mz_printer(t_philo *philo, int n)
 	// }
 	if (n == 0)
 	{
-		printf("%lld %d died\n", get_time() - philo->data->timestmp, philo->id);
+		printf("%lld %d died\n", get_time() - philo->data->timestmp, philo->id + 1);
 		return ;
 	}
 	else if (n == 1)
-		printf("%lld %d has taken a fork\n", get_time() - philo->data->timestmp, philo->id);
+		printf("%lld %d has taken a fork\n", get_time() - philo->data->timestmp, philo->id + 1);
 	else if (n == 2)
-		printf("%lld %d is sleeping\n", get_time() - philo->data->timestmp, philo->id);
+		printf("%lld %d is sleeping\n", get_time() - philo->data->timestmp, philo->id + 1);
 	else if (n == 3)
-		printf("%lld %d is eating\n", get_time() - philo->data->timestmp, philo->id);
+		printf("%lld %d is eating\n", get_time() - philo->data->timestmp, philo->id + 1);
 	else if (n == 4)
-		printf("%lld %d is thinking\n", get_time() - philo->data->timestmp, philo->id);
+		printf("%lld %d is thinking\n", get_time() - philo->data->timestmp, philo->id + 1);
 	else
 		printf("Doesn't know what to print!\n");
 	pthread_mutex_unlock(&philo->data->printer);
@@ -127,6 +127,11 @@ void *mz_routine1(void *data)
 			break ;
 		if (mz_eat(philo))
 			break ;
+		if (philo->data->n_eat > -2 && philo->meals_eaten >= philo->data->n_eat)
+		{
+			philo->meals_eaten = -1;
+			break ;
+		}
 		if(mz_sleep(philo))
 			break ;
 	}
@@ -136,7 +141,7 @@ void *mz_routine1(void *data)
 int	mz_check_death(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->death);
-	if (philo->data->is_dead == 1)
+	if (philo->data->is_dead == 1 || philo->meals_eaten == -1)
 	{
 		pthread_mutex_unlock(&philo->data->death);
 		return (1);
@@ -150,7 +155,7 @@ int	mz_check_death(t_philo *philo)
 	}
 	else if (philo->data->n_eat > -2 && philo->meals_eaten > philo->data->n_eat)
 	{
-		philo->data->is_dead = 1;
+		// philo->data->is_dead = 1;
 		pthread_mutex_unlock(&philo->data->death);
 		return (1);
 	}
