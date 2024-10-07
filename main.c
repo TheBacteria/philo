@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:04:03 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/06 22:17:07 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/07 14:39:40 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,15 @@ int	mz_start(t_info *data)
 
 
 	i = 0;
-	while (i <= data->n_philo)
+	data->timestmp = get_time();
+	while (i < data->n_philo)
 	{
-		if (data->philo[i]->id == -1)
-		{
-			if (pthread_create(&data->philo[i]->thread, NULL, mz_routineMon, data))
-				return (1);
-		}
-		else
-		{
-			if (pthread_create(&data->philo[i]->thread, NULL, mz_routine1, data->philo[i]))
-				return (1);
-		}
+		if (pthread_create(&data->philo[i]->thread, NULL, mz_routine1, data->philo[i]))
+			return (1);
 		i++;
 	}
+	if (pthread_create(&data->philo[i]->thread, NULL, mz_routineMon, data))
+				return (1);
 	return (0);
 }
 
