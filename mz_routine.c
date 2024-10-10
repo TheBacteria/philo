@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:46:10 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/07 17:16:22 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/07 17:17:45 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	mz_take_fork(t_philo *philo)
 
 int	mz_eat(t_philo *philo)
 {
+	philo->last_meal = get_time();
 	if (mz_printer(philo, 3))
 	{
 		pthread_mutex_unlock(&philo->fork_1->fork);
@@ -88,7 +89,6 @@ int	mz_eat(t_philo *philo)
 	}
 	philo->meals_eaten++;
 	mz_usleep(philo, philo->data->t_eat);
-	philo->last_meal = get_time();
 	pthread_mutex_unlock(&philo->fork_1->fork);
 	pthread_mutex_unlock(&philo->fork_2->fork);
 	return (0);
