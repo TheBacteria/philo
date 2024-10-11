@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:02:21 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/06 22:56:57 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/11 18:31:25 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_philo
 	t_fork			*fork_2;
 	pthread_t		thread;
 	t_info			*data;
+	pthread_mutex_t	l_meal;
 }					t_philo;
 
 

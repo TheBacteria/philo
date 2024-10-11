@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:46:10 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/07 17:17:45 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/11 18:33:37 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,11 @@ void *mz_routine1(void *data)
 			break ;
 		if (mz_eat(philo))
 			break ;
+		if (philo->data->n_eat > -2 && philo->meals_eaten == philo->data->n_eat)
+		{
+			philo->meals_eaten = -1;
+			break ;
+		}
 		if(mz_sleep(philo))
 			break ;
 	}
@@ -141,19 +146,28 @@ int	mz_check_death(t_philo *philo)
 void *mz_routineMon(void *data)
 {
 	int i;
+	int j;
 	t_info *mon;
 	
 	mon = (t_info *)data;
 	while (1)
 	{
 		i = 0;
+		j = 0;
 		while (i < mon->n_philo)
 		{
+			if (mon->philo[i]->meals_eaten == mon->n_eat)
+			{
+				j++;
+				i++;
+				continue ;
+			}
 			if(mz_check_death(mon->philo[i]))
 				return (NULL);
 			i++;
 		}
+		if (j == mon->n_philo)
+			break ;
 	}
-	
 	return (NULL);
 }
