@@ -6,25 +6,19 @@
 #    By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/17 11:58:20 by mzouine           #+#    #+#              #
-#    Updated: 2024/10/09 16:08:45 by mzouine          ###   ########.fr        #
+#    Updated: 2024/10/13 10:41:34 by mzouine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC = main.c mz_utils.c mz_routine.c\
 		mz_parser.c
 
-SRC_BONUS = main.c\
-			mz_parser.c
-
 OBJS = ${SRC:.c=.o}
-OBJS_BONUS = ${SRC_BONUS:.c=.o}
-FLAGS =  -Wall -Wextra -Werror
+FLAGS =  -Wall -Wextra -Werror #-g -fsanitize=thread
 CC = cc
-HEADER_BONUS = philo_bonus.h
 HEADER = philo.h
 RM = rm -f
 NAME = philo
-NAME_BONUS = philo_bonus
 
 all: $(NAME)
 
@@ -34,16 +28,11 @@ all: $(NAME)
 $(NAME): $(OBJS)
 		$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
-$(NAME_BONUS): $(OBJS_BONUS)
-		$(CC) $(FLAGS) $(OBJS_BONUS) -o $(NAME_BONUS)
-
-bonus: $(NAME_BONUS)
-
 clean:
 	$(RM) $(OBJS) $(OBJS_BONUS)
 
 fclean: clean
-		$(RM) $(NAME) $(NAME_BONUS)
+		$(RM) $(NAME)
 
 re: fclean all
 

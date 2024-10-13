@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:02:21 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/11 18:31:25 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/13 10:26:05 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,13 @@ typedef struct s_info
     int     	t_sleep;
     int     	n_eat;
 	int			is_dead;
+	int			is_full;
 	long long	timestmp;
 	t_philo		**philo;
 	t_fork		**fork;
 	pthread_mutex_t	printer;
 	pthread_mutex_t	death;
+	pthread_mutex_t	full;
 } t_info;
 
 typedef struct s_fork
@@ -60,6 +62,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	t_info			*data;
 	pthread_mutex_t	l_meal;
+	pthread_mutex_t	meals_mtx;
 }					t_philo;
 
 

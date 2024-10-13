@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:04:03 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/11 18:33:19 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/13 10:25:21 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	mz_init_philos(t_info *data)
 		data->philo[i]->fork_2 = data->fork[(i + 1) % data->n_philo];
 		data->philo[i]->data = data;
 		pthread_mutex_init(&data->philo[i]->l_meal, NULL);
+		pthread_mutex_init(&data->philo[i]->meals_mtx, NULL);
 		i++;
 	}
 	data->philo[i] = NULL;

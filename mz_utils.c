@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:17:18 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/10 11:44:09 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/12 11:02:50 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int	mz_usleep(t_philo *philo, size_t ms)
 		return (1);
 	while ((get_time() - start) < ms)
 	{
+		usleep(500);
 		if (mz_check_death2(philo))
 			break ;
-		usleep(200);
 	}
 	return (0);
 }

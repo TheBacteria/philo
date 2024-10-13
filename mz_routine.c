@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:46:10 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/11 18:33:37 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/13 10:51:39 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,18 @@ int	mz_take_fork(t_philo *philo)
 
 int	mz_eat(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->l_meal);
 	philo->last_meal = get_time();
+	pthread_mutex_unlock(&philo->l_meal);
 	if (mz_printer(philo, 3))
 	{
 		pthread_mutex_unlock(&philo->fork_1->fork);
 		pthread_mutex_unlock(&philo->fork_2->fork);
 		return (1);
 	}
+	pthread_mutex_lock(&philo->meals_mtx);
 	philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->meals_mtx);
 	mz_usleep(philo, philo->data->t_eat);
 	pthread_mutex_unlock(&philo->fork_1->fork);
 	pthread_mutex_unlock(&philo->fork_2->fork);
@@ -109,7 +113,9 @@ void *mz_routine1(void *data)
 	t_philo	*philo;
 	
 	philo = (t_philo *)data;
+	pthread_mutex_lock(&philo->l_meal);
 	philo->last_meal = philo->data->timestmp;
+	pthread_mutex_unlock(&philo->l_meal);
 	if (philo->id % 2 == 0)
 		mz_usleep(philo, 50);
 	while (1)
@@ -118,11 +124,20 @@ void *mz_routine1(void *data)
 			break ;
 		if (mz_eat(philo))
 			break ;
-		if (philo->data->n_eat > -2 && philo->meals_eaten == philo->data->n_eat)
+		pthread_mutex_lock(&philo->meals_mtx);
+		if ((philo->data->n_eat > -2 && philo->meals_eaten == philo->data->n_eat) || philo->meals_eaten < 0)
 		{
-			philo->meals_eaten = -1;
-			break ;
+			philo->meals_eaten = -2;
+			pthread_mutex_unlock(&philo->meals_mtx);
+			pthread_mutex_lock(&philo->data->full);
+			if (philo->data->is_full == 1)
+			{
+				pthread_mutex_unlock(&philo->data->full);
+				break ;
+			}
+			pthread_mutex_unlock(&philo->data->full);
 		}
+		pthread_mutex_unlock(&philo->meals_mtx);
 		if(mz_sleep(philo))
 			break ;
 	}
@@ -132,13 +147,16 @@ void *mz_routine1(void *data)
 int	mz_check_death(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->death);
+	pthread_mutex_lock(&philo->l_meal);
 	if (get_time() - philo->last_meal > philo->data->t_die)
 	{
+		pthread_mutex_unlock(&philo->l_meal);
 		philo->data->is_dead = 1;
 		pthread_mutex_unlock(&philo->data->death);
 		mz_printer(philo, 0);
 		return (1);
 	}
+	pthread_mutex_unlock(&philo->l_meal);
 	pthread_mutex_unlock(&philo->data->death);
 	return (0);
 }
@@ -156,18 +174,25 @@ void *mz_routineMon(void *data)
 		j = 0;
 		while (i < mon->n_philo)
 		{
-			if (mon->philo[i]->meals_eaten == mon->n_eat)
+			pthread_mutex_lock(&mon->philo[i]->meals_mtx);
+			if (mon->philo[i]->meals_eaten < 0)
 			{
 				j++;
-				i++;
-				continue ;
+				// i++;
+				// continue ;
 			}
+			pthread_mutex_unlock(&mon->philo[i]->meals_mtx);
 			if(mz_check_death(mon->philo[i]))
 				return (NULL);
 			i++;
 		}
 		if (j == mon->n_philo)
+		{
+			pthread_mutex_lock(&mon->full);
+			mon->is_full = 1;
+			pthread_mutex_unlock(&mon->full);
 			break ;
+		}
 	}
 	return (NULL);
 }
