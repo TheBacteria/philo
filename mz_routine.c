@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:46:10 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/13 10:51:39 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/13 12:44:34 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,11 +176,7 @@ void *mz_routineMon(void *data)
 		{
 			pthread_mutex_lock(&mon->philo[i]->meals_mtx);
 			if (mon->philo[i]->meals_eaten < 0)
-			{
 				j++;
-				// i++;
-				// continue ;
-			}
 			pthread_mutex_unlock(&mon->philo[i]->meals_mtx);
 			if(mz_check_death(mon->philo[i]))
 				return (NULL);
