@@ -6,24 +6,22 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:04:03 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/15 15:47:13 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/15 19:02:13 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int mz_init_philos(t_info *data)
+static int mz_init_philos(t_info *data, int i)
 {
-	int i;
-	
 	data->philo = malloc(sizeof(t_philo *) * (data->n_philo + 2));
 	if (!data->philo)
 		return(mz_free_forks(data, 1));
-	i = 0;
 	while (i <= data->n_philo)
 	{
 		data->philo[i] = malloc(sizeof(t_philo));
-		//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+		if(!data->philo[i])
+			return (mz_philo_fail(data, i - 1, 0));
 		data->philo[i]->id = i;
 		if (i == data->n_philo)
 			data->philo[i]->id = -1;
@@ -31,10 +29,10 @@ static int mz_init_philos(t_info *data)
 		data->philo[i]->fork_1 = data->fork[i];
 		data->philo[i]->fork_2 = data->fork[(i + 1) % data->n_philo];
 		data->philo[i]->data = data;
-		pthread_mutex_init(&data->philo[i]->l_meal, NULL);
-		//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-		pthread_mutex_init(&data->philo[i]->meals_mtx, NULL);
-		//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+		if(pthread_mutex_init(&data->philo[i]->l_meal, NULL))
+			return (mz_philo_fail(data, i - 1, 1));
+		if(pthread_mutex_init(&data->philo[i]->meals_mtx, NULL))
+			return (mz_philo_fail(data, i - 1, 2));
 		i++;
 	}
 	data->philo[i] = NULL;
@@ -90,8 +88,7 @@ int main(int ac, char **av)
         return (1);
 	if(mz_init_forks(&data))
 		return (1);
-	//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-	if(mz_init_philos(&data))
+	if(mz_init_philos(&data, 0))
 		return (1);
 	mz_start(&data);
 

@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 15:37:30 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/15 15:45:30 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/15 19:00:32 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,25 @@ int	mz_free_forks(t_info *data, int n)
 	if (n > 0)
 		return (mz_error_print(n));
 	return (0);
+}
+
+int mz_philo_fail(t_info *data, int i, int n)
+{
+	if (n == 1)
+		free(data->philo[i]);
+	else if (n == 2)
+	{
+		pthread_mutex_destroy(&data->philo[i]->l_meal);
+		free(data->philo[i]);
+	}
+	i--;
+	while (i >= 0)
+	{
+		pthread_mutex_destroy(&data->philo[i]->l_meal);
+		pthread_mutex_destroy(&data->philo[i]->meals_mtx);
+		free(data->philo[i]);
+		i--;
+	}
+	free(data->philo);
+	return (mz_free_forks(data, 1));
 }
