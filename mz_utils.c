@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:17:18 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/12 11:02:50 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/15 15:27:14 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,13 @@ int	mz_usleep(t_philo *philo, size_t ms)
 			break ;
 	}
 	return (0);
+}
+
+int	mz_error_print(int n)
+{
+	if (n == 0)
+		printf("Mutex initialisation error !\n");
+	else if(n == 1)
+		printf("Malloc failed!\n");
+	return (1);
 }

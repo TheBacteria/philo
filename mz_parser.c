@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:08:35 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/12 11:25:01 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/13 15:00:23 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,6 @@ static int	mz_parse_input(int ac, char **av, t_info *data)
 	if (data->n_philo == 0 || data->t_die == 0 || data->t_eat == 0
 		|| data->t_sleep == 0 || data->n_eat == 0)
 		return(-1);
-	pthread_mutex_init(&data->printer, NULL);
-	pthread_mutex_init(&data->death, NULL);
-	pthread_mutex_init(&data->full, NULL);
 	return (0);
 }
 
@@ -80,5 +77,18 @@ int	mz_parser(int ac, char **av, t_info  *data)
 		return(mz_get_out());
 	if (mz_parse_input(ac, av, data) == -1)
 		return(mz_get_out());
+	if (pthread_mutex_init(&data->printer, NULL))
+		return (mz_error_print(0));
+	if(pthread_mutex_init(&data->death, NULL))
+	{
+		pthread_mutex_destroy(&data->printer);
+		return (mz_error_print(0));
+	}
+	if(pthread_mutex_init(&data->full, NULL))
+	{
+		pthread_mutex_destroy(&data->printer);
+		pthread_mutex_destroy(&data->death);
+		return (mz_error_print(0));
+	}
 	return (0);
 }
