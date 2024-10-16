@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:04:03 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/15 19:10:38 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/16 12:35:34 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ int main(int ac, char **av)
 		return (1);
 	if(mz_init_philos(&data, 0))
 		return (1);
-	mz_start(&data);
+	if(mz_start(&data))
+		return (1);
 
 	i = 0;
 	while (i <= data.n_philo)
@@ -98,5 +99,7 @@ int main(int ac, char **av)
 		pthread_join(data.philo[i]->thread, NULL);
 		i++;
 	}
+	mz_free_forks(&data, 0);
+	mz_free_philo(&data, 0);
     return (0);
 }
