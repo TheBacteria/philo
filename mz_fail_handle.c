@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 15:37:30 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/18 14:11:24 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/18 15:15:23 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ int	mz_fork_fail(t_info *data, int i, int n)
 		free(data->fork[i]);
 	}
 	free(data->fork);
+	pthread_mutex_destroy(&data->printer);
+	pthread_mutex_destroy(&data->death);
+	pthread_mutex_destroy(&data->full);
 	return (mz_error_print(n));
 }
 
@@ -38,6 +41,9 @@ int	mz_free_forks(t_info *data, int n)
 		i++;
 	}
 	free(data->fork);
+	pthread_mutex_destroy(&data->printer);
+	pthread_mutex_destroy(&data->death);
+	pthread_mutex_destroy(&data->full);
 	if (n > 0)
 		return (mz_error_print(n));
 	return (0);
@@ -61,7 +67,12 @@ int	mz_philo_fail(t_info *data, int i, int n)
 		i--;
 	}
 	free(data->philo);
-	return (mz_free_forks(data, 1));
+	mz_free_forks(data, 0);
+	if (n == 0)
+		printf("Malloc failed!\n");
+	else if (n > 0)
+		printf("Mutex initialisation error !\n");
+	return (1);
 }
 
 int	mz_free_philo(t_info *data, int n)

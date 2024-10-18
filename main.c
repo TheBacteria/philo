@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:04:03 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/18 14:14:07 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/18 15:19:46 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,12 @@ static int	mz_init_forks(t_info *data)
 
 	data->fork = malloc(sizeof(t_fork *) * (data->n_philo + 1));
 	if (!data->fork)
+	{
+		pthread_mutex_destroy(&data->printer);
+		pthread_mutex_destroy(&data->death);
+		pthread_mutex_destroy(&data->full);
 		return (mz_error_print(1));
+	}
 	i = 0;
 	while (i < data->n_philo)
 	{
@@ -67,7 +72,6 @@ static int	mz_start(t_info *data)
 	t_philo	*philo;
 
 	i = 0;
-	philo = data->philo[i];
 	data->timestmp = get_time();
 	while (i < data->n_philo)
 	{
