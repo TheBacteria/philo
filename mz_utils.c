@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:17:18 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/16 12:30:42 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/18 14:38:20 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	mz_error_print(int n)
 {
 	if (n == 0)
 		printf("Mutex initialisation error !\n");
-	else if(n == 1)
+	else if (n == 1)
 		printf("Malloc failed!\n");
 	else if (n == 2)
 		printf("Thread creation failed!\n");

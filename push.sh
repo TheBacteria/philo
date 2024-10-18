@@ -1,1 +1,1 @@
-git add . && git commit -m "mandatory without meals" && git push
+git add . && git commit -m "mandatory final" && git push

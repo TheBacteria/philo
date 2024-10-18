@@ -6,11 +6,11 @@
 #    By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/17 11:58:20 by mzouine           #+#    #+#              #
-#    Updated: 2024/10/15 15:38:09 by mzouine          ###   ########.fr        #
+#    Updated: 2024/10/18 14:27:54 by mzouine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c mz_utils.c mz_routine.c mz_fail_handle.c\
+SRC = main.c mz_utils.c mz_routine.c mz_fail_handle.c mz_monitor.c mz_actions.c\
 		mz_parser.c
 
 OBJS = ${SRC:.c=.o}

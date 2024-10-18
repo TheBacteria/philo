@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 15:37:30 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/16 12:32:47 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/18 14:11:24 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ int	mz_fork_fail(t_info *data, int i, int n)
 		free(data->fork[i]);
 	}
 	free(data->fork);
-	return(mz_error_print(n));
+	return (mz_error_print(n));
 }
 
 int	mz_free_forks(t_info *data, int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(data->fork[i])
+	while (data->fork[i])
 	{
 		pthread_mutex_destroy(&data->fork[i]->fork);
 		free(data->fork[i]);
@@ -43,7 +43,7 @@ int	mz_free_forks(t_info *data, int n)
 	return (0);
 }
 
-int mz_philo_fail(t_info *data, int i, int n)
+int	mz_philo_fail(t_info *data, int i, int n)
 {
 	if (n == 1)
 		free(data->philo[i]);
@@ -64,9 +64,9 @@ int mz_philo_fail(t_info *data, int i, int n)
 	return (mz_free_forks(data, 1));
 }
 
-int mz_free_philo(t_info *data, int n)
+int	mz_free_philo(t_info *data, int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (data->philo[i])
@@ -82,7 +82,7 @@ int mz_free_philo(t_info *data, int n)
 	return (0);
 }
 
-int mz_thread_fail(t_info *data, int i)
+int	mz_thread_fail(t_info *data, int i)
 {
 	while (i >= 0)
 	{

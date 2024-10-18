@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:08:35 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/13 15:00:23 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/18 14:23:46 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	mz_is_val(char *s)
 	return ((int)n);
 }
 
-static int	mz_get_out()
+static int	mz_get_out(void)
 {
 	putstr_fd("Invalid arguments !\n", 2);
 	putstr_fd("Usage: ", 2);
@@ -61,30 +61,29 @@ static int	mz_parse_input(int ac, char **av, t_info *data)
 		data->n_eat = mz_is_val(av[5]);
 	else
 		data->n_eat = -2;
-	
 	if (data->n_philo == -1 || data->t_die == -1 || data->t_eat == -1
 		|| data->t_sleep == -1 || data->n_eat == -1)
-		return(-1);
+		return (-1);
 	if (data->n_philo == 0 || data->t_die == 0 || data->t_eat == 0
 		|| data->t_sleep == 0 || data->n_eat == 0)
-		return(-1);
+		return (-1);
 	return (0);
 }
 
-int	mz_parser(int ac, char **av, t_info  *data)
+int	mz_parser(int ac, char **av, t_info *data)
 {
 	if (ac != 5 && ac != 6)
-		return(mz_get_out());
+		return (mz_get_out());
 	if (mz_parse_input(ac, av, data) == -1)
-		return(mz_get_out());
+		return (mz_get_out());
 	if (pthread_mutex_init(&data->printer, NULL))
 		return (mz_error_print(0));
-	if(pthread_mutex_init(&data->death, NULL))
+	if (pthread_mutex_init(&data->death, NULL))
 	{
 		pthread_mutex_destroy(&data->printer);
 		return (mz_error_print(0));
 	}
-	if(pthread_mutex_init(&data->full, NULL))
+	if (pthread_mutex_init(&data->full, NULL))
 	{
 		pthread_mutex_destroy(&data->printer);
 		pthread_mutex_destroy(&data->death);
