@@ -6,7 +6,7 @@
 /*   By: mzouine <mzouine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:08:35 by mzouine           #+#    #+#             */
-/*   Updated: 2024/10/18 15:00:54 by mzouine          ###   ########.fr       */
+/*   Updated: 2024/10/18 19:28:33 by mzouine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,13 @@ static int	mz_parse_input(int ac, char **av, t_info *data)
 
 int	mz_parser(int ac, char **av, t_info *data)
 {
+	struct timeval	time;
+
+	if (gettimeofday(&time, NULL) == -1)
+	{
+		printf("gettimeofday function failed!\n");
+		return (1);
+	}
 	if (ac != 5 && ac != 6)
 		return (mz_get_out());
 	if (mz_parse_input(ac, av, data) == -1)
