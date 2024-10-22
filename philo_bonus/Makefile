@@ -10,15 +10,15 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c mz_utils.c mz_routine.c mz_fail_handle.c mz_monitor.c mz_actions.c\
-		mz_parser.c
+SRC = main_bonus.c mz_utils_bonus.c mz_routine_bonus.c mz_fail_handle_bonus.c\
+		mz_monitor_bonus.c mz_actions_bonus.c mz_parser_bonus.c
 
 OBJS = ${SRC:.c=.o}
 FLAGS =  -Wall -Wextra -Werror
 CC = cc
-HEADER = philo.h
+HEADER = philo_bonus.h
 RM = rm -f
-NAME = philo
+NAME = philo_bonus
 
 all: $(NAME)
 

@@ -1,1 +1,1 @@
-git add . && git commit -m "mandatory final" && git push
+git add . && git commit -m "bonus auto" && git push
