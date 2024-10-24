@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philo.h"
 
 int	mz_check_death(t_philo *philo)
 {
@@ -44,6 +44,7 @@ void	*mz_routine_mon(void *data)
 	t_info	*mon;
 
 	mon = (t_info *)data;
+	mz_usleep(NULL, mon->t_die / 2);
 	while (1)
 	{
 		i = 0;

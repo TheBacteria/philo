@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philo.h"
 
 void	putstr_fd(char *msg, int fd)
 {
@@ -42,7 +42,7 @@ int	mz_usleep(t_philo *philo, size_t ms)
 	while ((get_time() - start) < ms)
 	{
 		usleep(500);
-		if (mz_check_death2(philo))
+		if (philo && mz_check_death2(philo))
 			break ;
 	}
 	return (0);

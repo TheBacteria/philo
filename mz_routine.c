@@ -69,7 +69,7 @@ void	*mz_routine1(void *data)
 	philo->last_meal = get_time();
 	pthread_mutex_unlock(&philo->l_meal);
 	if (philo->id % 2 == 0)
-		mz_usleep(philo, 50);
+		mz_usleep(philo, 10);
 	while (1)
 	{
 		if (mz_take_fork(philo))
